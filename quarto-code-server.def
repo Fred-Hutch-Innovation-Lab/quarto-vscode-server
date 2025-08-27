@@ -1,0 +1,43 @@
+Bootstrap: docker
+From: ghcr.io/quarto-dev/quarto-full:1.8.21
+
+%labels
+    Author "Your Name"
+    Description "VS code server with R, Python, Jupyter, Quarto"
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    
+    # Install additional system deps that might not be in quarto-full
+    apt-get update
+    apt-get install -y git
+
+    # Install VS Code CLI (code command)
+    curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output vscode_cli.tar.gz
+    tar -xf vscode_cli.tar.gz
+    mv code /usr/local/bin/
+    chmod +x /usr/local/bin/code
+    rm vscode_cli.tar.gz
+
+%environment
+    # Point caches to persistent scratch dirs (bind these at runtime)
+    export UV_CACHE_DIR=/fh/fast/_IRC/FHIL/grp/bioinfo_tools/package_caches/uv/
+    export RENV_PATHS_CACHE=/fh/fast/_IRC/FHIL/grp/bioinfo_tools/package_caches/renv/
+
+    # Ensure python & R are on path
+    export PATH=/usr/local/bin:$PATH
+    
+    # Set relevant Cross Desktop Group settings
+    export XDG_RUNTIME_DIR=/tmp
+    export XDG_CACHE_HOME=/tmp/quarto_cache_home
+    export XDG_DATA_HOME=/tmp/quarto_data_home
+    
+    # VS Code and code-server settings
+    export CS_DISABLE_GETTING_STARTED_OVERRIDE=1
+
+%runscript
+    if [ $# -eq 0 ]; then
+        exec code tunnel
+    else
+        exec "$@"
+    fi
