@@ -12,25 +12,44 @@ From: ghcr.io/quarto-dev/quarto-full:1.8.21
     apt-get update
     apt-get install -y git
 
+
+    mkdir -p /opt/bin
+    export PATH="/opt/bin:$PATH"
+
+    export XDG_BIN_HOME=/opt/bin
+    export XDG_DATA_HOME=/opt/share
+    export XDG_CACHE_HOME=/opt/cache
+
+    # add UV
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
     # Install VS Code CLI (code command)
     curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output vscode_cli.tar.gz
     tar -xf vscode_cli.tar.gz
-    mv code /usr/local/bin/
-    chmod +x /usr/local/bin/code
+    mv code /opt/bin
+    chmod +x /opt/bin/code
     rm vscode_cli.tar.gz
 
 %environment
     # Point caches to persistent scratch dirs (bind these at runtime)
     export UV_CACHE_DIR=/fh/fast/_IRC/FHIL/grp/bioinfo_tools/package_caches/uv/
     export RENV_PATHS_CACHE=/fh/fast/_IRC/FHIL/grp/bioinfo_tools/package_caches/renv/
-
-    # Ensure python & R are on path
-    export PATH=/usr/local/bin:$PATH
     
+    export JUPYTER_DATA_DIR=/tmp/jupyter_data
+    export JUPYTER_CONFIG_DIR=/tmp/jupyter_config
+    export IPYTHONDIR=/tmp/ipython
+
     # Set relevant Cross Desktop Group settings
-    export XDG_RUNTIME_DIR=/tmp
-    export XDG_CACHE_HOME=/tmp/quarto_cache_home
-    export XDG_DATA_HOME=/tmp/quarto_data_home
+    # Set XDG_BIN_HOME to a proper system location
+    export XDG_BIN_HOME=/tmp/bin
+    export XDG_DATA_HOME=/tmp/share
+    export XDG_CACHE_HOME=/tmp/cache
+
+    export PATH="/opt/bin:$PATH"
+
+
+    # Ensure installs are in path
+    export PATH=/usr/local/bin:$PATH
     
     # VS Code and code-server settings
     export CS_DISABLE_GETTING_STARTED_OVERRIDE=1
