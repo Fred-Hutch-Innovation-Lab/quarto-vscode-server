@@ -6,14 +6,8 @@ apptainer build quarto-code-server.sif quarto-code-server.def
 ```
 2. Create an interactive session with Screen or something similar
 3. Allocate an interactive node. Using `salloc` is preferred over `grabnode` due to the automatic assignment of a `tmpdir`
-4. Launch the apptainer. Make sure `/var/tmp` is writeable for unpacking vs-code server (needed for first time installations)
-```
-apptainer run \
-    -B /var/tmp:$TMPDIR \
-    -B /fh/fast/_IRC/FHIL \
-    positron3.sif \
-    code tunnel
-```
+4. Launch the apptainer with `sbatch launch_quarto_server.sh`
+   - Make sure `/var/tmp` is writeable for unpacking vs-code server (needed for first time installations)
 5. Follow the in-terminal prompts to setup and connect to the vs-code server in your browser.
 6. Navigate to your project directory in the browser vs-code.
     -  When you first open the server in your project, give the app a minute to set up extensions. These extensions will allow jupyter environments to be auto-detected and loaded when opening terminals.
