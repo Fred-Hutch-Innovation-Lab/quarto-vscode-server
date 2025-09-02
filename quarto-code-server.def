@@ -33,6 +33,7 @@ From: ghcr.io/quarto-dev/quarto-full:1.8.21
 %environment
     # Point caches to persistent scratch dirs (bind these at runtime)
     export UV_CACHE_DIR=/fh/fast/_IRC/FHIL/grp/bioinfo_tools/package_caches/uv/
+    export UV_PYTHON_INSTALL_DIR=/fh/fast/_IRC/FHIL/grp/bioinfo_tools/package_caches/uv/
     export RENV_PATHS_CACHE=/fh/fast/_IRC/FHIL/grp/bioinfo_tools/package_caches/renv/
     
     export JUPYTER_DATA_DIR=/tmp/jupyter_data

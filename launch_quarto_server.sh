@@ -11,7 +11,8 @@ module purge
 module load Apptainer
 
 apptainer run \
-      -B /var/tmp:$TMPDIR \
-      -B /fh/fast/_IRC/FHIL \
-      /fh/fast/_IRC/FHIL/grp/inhouse_computational_resources/quarto-launcher/quarto-code-server.sif \
-      code tunnel
+    -B /var/tmp:$TMPDIR \
+    -B /run:$TMPDIR \
+    -B /fh/fast/_IRC/FHIL \
+    /fh/fast/_IRC/FHIL/grp/analyses/bm04/00_setup/quarto-code-server.sif \
+    code tunnel
